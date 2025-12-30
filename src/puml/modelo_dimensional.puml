@@ -1,0 +1,101 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+
+hide methods
+
+entity DimDate {
+    primary_key(date_key)
+    full_date
+    year
+    semester
+    quarter
+    month
+    month_name
+    week
+    week_name
+    day_number_of_year
+    day_number_of_month
+    day_number_of_week
+    day_of_week
+    weekend
+}
+
+entity DimCustomer {
+    primary_key(customer_key)
+    customer_code
+    name
+    birthdate
+    city
+    region
+    fiscal_number
+    phone_number
+    gender
+    martial_status
+    num_of_children
+    zip_code
+    customer_type
+    effective_date
+    expired_date
+    is_current
+}
+
+entity DimProduct {
+    primary_key(product_key)
+    name
+    price
+    price_start_date
+    family
+    family_code
+    family_description
+    serial_number
+    brand
+    tax_rate
+    shipping_cost
+    up_market_flag
+    effective_date
+    expired_date
+    is_current
+}
+
+entity DimEmployee {
+    primary_key(employee_key)
+    employee_code
+    name
+    birthdate
+    city
+    region
+    zip_code
+    fiscal_number
+    phone_number
+    department_code
+    department_name
+    department_description
+    employee_start_date
+    gender
+    marital_status
+    num_of_children
+    effective_date
+    expired_date
+    is_current
+}
+
+entity FactSales {
+    primary_key(foreign_key(date_key))
+    primary_key(foreign_key(customer_key))
+    primary_key(foreign_key(product_key))
+    primary_key(foreign_key(employee_key))
+    sale_id
+    quantity
+    amount
+    total_amount
+}
+
+FactSales "*" -left- "1" DimCustomer
+FactSales "*" -up- "1" DimDate
+FactSales "*" -right- "1" DimProduct
+FactSales "*" -down- "1" DimEmployee
+
+@enduml

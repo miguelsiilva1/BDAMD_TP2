@@ -1,0 +1,89 @@
+1. - Dados de venda (Faturação) aos clientes da empresa Steinway
+
+2. - Mais elementar possível (i.e. nome do instrumento)
+    "O data mart a desenvolver deverá ser
+     concebido de modo a permitir a realização de consultas/análises aos dados das **vendas** no
+     nível de granularidade mais elementar, de modo a possibilitar a maior flexibilidade
+     possível para a realização futura de análises de dados."
+
+3. Dimensões:
+    - DimDate
+        - date_key (PK)
+        - full_date
+        - year
+        - semester
+        - quarter
+        - month
+        - month_name
+        - week
+        - week_name
+        - day_number_of_year
+        - day_number_of_month
+        - day_number_of_week
+        - day_of_week
+        - weekend
+
+    - DimCustomer
+        - customer_key (PK)
+        - customer_code
+        - name
+        - birthdate
+        - city
+        - region
+        - fiscal_number
+        - phone_number
+        - gender
+        - martial_status
+        - num_of_children
+        - zip_code
+        - customer_type
+        - effective_date
+        - expired_date
+        - is_current
+    - DimProduct
+        - product_key (PK)
+        - name
+        - price
+        - price_start_date
+        - family
+        - family_code
+        - family_description
+        - serial_number
+        - brand
+        - tax_rate
+        - shipping_cost
+        - up_market_flag
+        - effective_date
+        - expired_date
+        - is_current
+
+    - DimEmployee
+        - employee_key (PK)
+        - employee_code
+        - name
+        - birthdate
+        - city
+        - region
+        - zip_code
+        - fiscal_number
+        - phone_number
+        - department_code
+        - department_name
+        - department_description
+        - employee_start_date
+        - gender
+        - marital_status
+        - num_of_children
+        - effective_date
+        - expired_date
+        - is_current
+
+4. Tabela de Factos: FactSales
+    - date_key (PK/FK)
+    - customer_key (PK/FK)
+    - product_key (PK/FK)
+    - employee_key (PK/FK)
+    - sale_id
+    - quantity
+    - amount
+    - total_amount
