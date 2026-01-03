@@ -1,4 +1,4 @@
-@startuml
+ @startuml
 'https://plantuml.com/class-diagram
 
 !define primary_key(x) <b><color:#b8861b><&key></color> x</b>
@@ -26,72 +26,109 @@ entity DimDate {
 entity DimCustomer {
     primary_key(customer_key)
     customer_code
-    name
-    birthdate
+    number
+    email
+    address
     city
-    region
-    fiscal_number
-    phone_number
-    gender
-    martial_status
-    num_of_children
+    location
     zip_code
-    customer_type
-    effective_date
-    expired_date
-    is_current
+    tax_payer_number
+    phone
+    contact
+    fax
+    email
+
 }
+
+    'name
+    'birthdate
+    'region
+    'gender
+    'fiscal_number
+    'martial_status
+    'num_of_children
+    'customer_type
+    'effective_date
+    'expired_date
+    'is_current
 
 entity DimProduct {
     primary_key(product_key)
-    name
-    price
-    price_start_date
-    family
-    family_code
-    family_description
-    serial_number
-    brand
-    tax_rate
-    shipping_cost
-    up_market_flag
-    effective_date
-    expired_date
-    is_current
+    product_code
+    unit_price
+    start_selling_date
+    stock
+    family_name
+    description
+    order_point
+    minimum_stock
+    category
+
 }
+    'name
+    'family_code
+    'serial_number
+    'brand
+    'tax_rate
+    'shipping_cost
+    'up_market_flag
+    'effective_date
+    'expired_date
+    'is_current
 
 entity DimEmployee {
     primary_key(employee_key)
+    number
+    initials
     employee_code
-    name
-    birthdate
-    city
-    region
-    zip_code
-    fiscal_number
-    phone_number
+    forename
+    surname
+    group
+    department
+    email
     department_code
-    department_name
-    department_description
-    employee_start_date
-    gender
-    marital_status
-    num_of_children
-    effective_date
-    expired_date
-    is_current
 }
+
+    'name
+    'birthdate
+    'city
+    'region
+    'zip_code
+    'fiscal_number
+    'phone_number
+    'department_name
+    'department_description
+    'employee_start_date
+    'gender
+    'marital_status
+    'num_of_children
+    'effective_date
+    'expired_date
+    'is_current
 
 entity FactSales {
     primary_key(foreign_key(date_key))
     primary_key(foreign_key(customer_key))
     primary_key(foreign_key(product_key))
     primary_key(foreign_key(employee_key))
+    foreign_key(customer_number)
+    foreign_key(employee_number)
+    foreign_key(product_code)
     sale_id
+    sale_line_id
+    sale_date
     quantity
-    amount
-    total_amount
+    unit_price
+    line_value
+    payment_date
+    products_total_value
+    vat
+    vat_rate
+    final_value
+
 }
+    'amount
+    'total_amount
 
 FactSales "*" -left- "1" DimCustomer
 FactSales "*" -up- "1" DimDate
