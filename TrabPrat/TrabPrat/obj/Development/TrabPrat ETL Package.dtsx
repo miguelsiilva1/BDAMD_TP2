@@ -11,8 +11,8 @@
   DTS:LocaleID="2070"
   DTS:ObjectName="TrabPrat ETL Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{32A79FA4-DE0A-4324-97DF-9BAD6A543CF5}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{DC77CB5D-EE66-42BF-B214-4DB96F4BA31F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -51,6 +51,18 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Load CSV Files]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{25C38C9C-5E18-4B6E-A734-585F730FC106}"
+      DTS:ObjectName="Load CSV Files">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"C:\\Temp\\TrabPrat\\TrabPrat\\Files\\" + @[User::CSVFilename] + ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Temp\TrabPrat\TrabPrat\Files\.csv" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[master]"
       DTS:CreationName="OLEDB"
       DTS:DTSID="{E5FA21AE-8BCE-49ED-ADDA-E68787D65AD6}"
@@ -76,6 +88,16 @@
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9ED644DB-2EDA-4F7B-812C-4669866ACAF1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CSVFilename">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
       DTS:DTSID="{E6583ACE-09F0-489F-893B-DB63B8C493E2}"
@@ -107,7 +129,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create Data Mart Database"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -125,7 +147,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Create Staging Area Database"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -133,6 +155,65 @@
           SQLTask:BypassPrepare="False"
           SQLTask:SqlStatementSource="IF NOT EXISTS (SELECT  name FROM sys.databases&#xA;&#x9;WHERE name = 'TrabPrat_StagingArea')&#xA;&#x9;CREATE DATABASE TrabPrat_StagingArea" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach CSV File"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{B52B9E5A-47DD-482D-AC94-F57B31B0CFA9}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach CSV File">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{6265347C-8420-4D6C-98CF-29A8ECDAC3F5}"
+        DTS:ObjectName="{6265347C-8420-4D6C-98CF-29A8ECDAC3F5}">
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="C:\Temp\TrabPrat\TrabPrat\Files" />
+            <FEFEProperty
+              FileSpec="*.csv" />
+            <FEFEProperty
+              FileNameRetrievalType="2" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach CSV File\Load CSV File into Table"
+          DTS:CreationName="Microsoft.BulkInsertTask"
+          DTS:DelayValidation="True"
+          DTS:Description="Bulk Insert Task"
+          DTS:DTSID="{30C5E7F7-95CE-4FB6-8C68-B6E067F31C9E}"
+          DTS:ExecutableType="Microsoft.BulkInsertTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load CSV File into Table"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="DestinationTableName">"[" + @[User::CSVFilename] + "]"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <BulkInsertTask:BulkInsertTaskData
+              BulkInsertTask:SourceConnectionName="{25C38C9C-5E18-4B6E-A734-585F730FC106}"
+              BulkInsertTask:DestinationConnectionName="{442ED56D-1868-45C1-BA30-9B0FCA168658}"
+              BulkInsertTask:DestinationTableName="[]"
+              BulkInsertTask:FirstRow="2"
+              BulkInsertTask:FieldTerminator="Semicolon {;}" xmlns:BulkInsertTask="www.microsoft.com/sqlserver/dts/tasks/bulkinserttask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{B4007156-DFC7-49F7-93D4-21853B13BF8C}"
+          DTS:ObjectName="{B4007156-DFC7-49F7-93D4-21853B13BF8C}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::CSVFilename" />
+      </DTS:ForEachVariableMappings>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Foreach DM Create Table Script"
@@ -170,7 +251,7 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="Execute DM Script"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -225,7 +306,7 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="Execute SA Script"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -262,6 +343,14 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
       DTS:To="Package\Foreach DM Create Table Script" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{5494B083-3D2B-47EF-BB46-A4668E353F54}"
+      DTS:From="Package\Foreach SA Create Table Script"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Foreach CSV File" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -274,11 +363,37 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Create Data Mart Database"
+          TopLeft="515.714285714286,72.8571428571429" />
         <NodeLayout
           Size="220,42"
           Id="Package\Create Staging Area Database"
           TopLeft="160,74" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Foreach CSV File\Load CSV File into Table"
+          TopLeft="25.3333333333332,28.6666666666667" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="238,126"
+          Size="238,169"
+          Id="Package\Foreach CSV File"
+          TopLeft="146.666666666667,415" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Foreach DM Create Table Script\Execute DM Script"
+          TopLeft="46.1428571428571,31.7142857142857" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="274,133"
+          Size="274,176"
+          Id="Package\Foreach DM Create Table Script"
+          TopLeft="495.714285714286,203.428571428571" />
         <NodeLayout
           Size="162,42"
           Id="Package\Foreach SA Create Table Script\Execute SA Script"
@@ -312,21 +427,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="207,42"
-          Id="Package\Create Data Mart Database"
-          TopLeft="515.714285714286,72.8571428571429" />
-        <NodeLayout
-          Size="165,42"
-          Id="Package\Foreach DM Create Table Script\Execute DM Script"
-          TopLeft="46.1428571428571,31.7142857142857" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="274,133"
-          Size="274,176"
-          Id="Package\Foreach DM Create Table Script"
-          TopLeft="495.714285714286,203.428571428571" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
           TopLeft="619.214285714286,114.857142857143">
@@ -353,6 +453,28 @@
                     Point3="13.5000000000001,48.2857142857143" />
                   <mssgle:LineSegment
                     End="13.5000000000001,81.0714285714285" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="264.833333333333,362">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53"
+              Start="0,0"
+              End="0,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

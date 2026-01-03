@@ -11,8 +11,8 @@
   DTS:LocaleID="2070"
   DTS:ObjectName="TrabPrat ETL Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{6EEF37D3-BBAF-4503-AF49-00BB4BEDF103}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{DC77CB5D-EE66-42BF-B214-4DB96F4BA31F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -48,6 +48,18 @@
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
           DTS:ConnectionString="Data Source=localhost;Initial Catalog=TrabPrat_DataMart;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-TrabPrat ETL Package-{88CAD2DA-76F4-4D9A-B919-8BE3092E2434}localhost.TrabPrat_DataMart;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Load CSV Files]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{25C38C9C-5E18-4B6E-A734-585F730FC106}"
+      DTS:ObjectName="Load CSV Files">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"C:\\Temp\\TrabPrat\\TrabPrat\\Files\\" + @[User::CSVFilename] + ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Temp\TrabPrat\TrabPrat\Files\.csv" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -186,6 +198,7 @@
             DTS:Name="DestinationTableName">"[" + @[User::CSVFilename] + "]"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <BulkInsertTask:BulkInsertTaskData
+              BulkInsertTask:SourceConnectionName="{25C38C9C-5E18-4B6E-A734-585F730FC106}"
               BulkInsertTask:DestinationConnectionName="{442ED56D-1868-45C1-BA30-9B0FCA168658}"
               BulkInsertTask:DestinationTableName="[]"
               BulkInsertTask:FirstRow="2"
@@ -352,9 +365,35 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="207,42"
+          Id="Package\Create Data Mart Database"
+          TopLeft="515.714285714286,72.8571428571429" />
+        <NodeLayout
           Size="220,42"
           Id="Package\Create Staging Area Database"
           TopLeft="160,74" />
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Foreach CSV File\Load CSV File into Table"
+          TopLeft="25.3333333333332,28.6666666666667" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="238,126"
+          Size="238,169"
+          Id="Package\Foreach CSV File"
+          TopLeft="146.666666666667,415" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Foreach DM Create Table Script\Execute DM Script"
+          TopLeft="46.1428571428571,31.7142857142857" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="274,133"
+          Size="274,176"
+          Id="Package\Foreach DM Create Table Script"
+          TopLeft="495.714285714286,203.428571428571" />
         <NodeLayout
           Size="162,42"
           Id="Package\Foreach SA Create Table Script\Execute SA Script"
@@ -388,21 +427,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="207,42"
-          Id="Package\Create Data Mart Database"
-          TopLeft="515.714285714286,72.8571428571429" />
-        <NodeLayout
-          Size="165,42"
-          Id="Package\Foreach DM Create Table Script\Execute DM Script"
-          TopLeft="46.1428571428571,31.7142857142857" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="274,133"
-          Size="274,176"
-          Id="Package\Foreach DM Create Table Script"
-          TopLeft="495.714285714286,203.428571428571" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
           TopLeft="619.214285714286,114.857142857143">
@@ -437,17 +461,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="193,42"
-          Id="Package\Foreach CSV File\Load CSV File into Table"
-          TopLeft="25.3333333333332,28.6666666666667" />
-        <ContainerLayout
-          HeaderHeight="43"
-          IsExpanded="True"
-          PanelSize="238,126"
-          Size="238,169"
-          Id="Package\Foreach CSV File"
-          TopLeft="146.666666666667,415" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
           TopLeft="264.833333333333,362">
