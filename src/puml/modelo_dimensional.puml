@@ -26,6 +26,8 @@ entity DimDate {
 entity DimCustomer {
     primary_key(customer_key)
     customer_code
+    customer_type
+    name
     number
     email
     address
@@ -40,24 +42,13 @@ entity DimCustomer {
 
 }
 
-    'name
-    'birthdate
-    'region
-    'gender
-    'fiscal_number
-    'martial_status
-    'num_of_children
-    'customer_type
-    'effective_date
-    'expired_date
-    'is_current
-
 entity DimProduct {
     primary_key(product_key)
     product_code
     unit_price
     start_selling_date
     stock
+    family_code
     family_name
     description
     order_point
@@ -65,16 +56,6 @@ entity DimProduct {
     category
 
 }
-    'name
-    'family_code
-    'serial_number
-    'brand
-    'tax_rate
-    'shipping_cost
-    'up_market_flag
-    'effective_date
-    'expired_date
-    'is_current
 
 entity DimEmployee {
     primary_key(employee_key)
@@ -84,27 +65,10 @@ entity DimEmployee {
     forename
     surname
     group
-    department
     email
+    department
     department_code
 }
-
-    'name
-    'birthdate
-    'city
-    'region
-    'zip_code
-    'fiscal_number
-    'phone_number
-    'department_name
-    'department_description
-    'employee_start_date
-    'gender
-    'marital_status
-    'num_of_children
-    'effective_date
-    'expired_date
-    'is_current
 
 entity FactSales {
     primary_key(foreign_key(date_key))
@@ -127,8 +91,6 @@ entity FactSales {
     final_value
 
 }
-    'amount
-    'total_amount
 
 FactSales "*" -left- "1" DimCustomer
 FactSales "*" -up- "1" DimDate
