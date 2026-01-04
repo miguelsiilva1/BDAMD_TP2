@@ -7,4 +7,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Families')
         Name varchar(60)
     )
 ELSE
-    TRUNCATE TABLE Families
+    DELETE FROM Families;

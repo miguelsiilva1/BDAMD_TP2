@@ -16,4 +16,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Products')
         Category         varchar(25)    not null
     )
 ELSE
-    TRUNCATE TABLE Products
+    DELETE FROM Products;

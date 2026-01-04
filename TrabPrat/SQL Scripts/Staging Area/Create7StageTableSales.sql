@@ -17,4 +17,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Sales')
         FinalValue         numeric(19, 6) not null
     )
 ELSE
-    TRUNCATE TABLE Sales
+    DELETE FROM Sales;

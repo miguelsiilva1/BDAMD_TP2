@@ -19,4 +19,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Customers')
         Email          varchar(45) not null
     )
 ELSE
-    TRUNCATE TABLE Customers
+    DELETE FROM Customers;

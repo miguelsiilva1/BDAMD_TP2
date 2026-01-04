@@ -15,4 +15,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Employees')
         Email      varchar(100) not null
     )
 ELSE
-    TRUNCATE TABLE Employees
+    DELETE FROM Employees;

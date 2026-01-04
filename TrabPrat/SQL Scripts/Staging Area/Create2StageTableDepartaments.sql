@@ -7,4 +7,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Departaments')
         Department varchar(50) not null
     )
 ELSE
-    TRUNCATE TABLE Departaments
+    DELETE FROM Departaments;

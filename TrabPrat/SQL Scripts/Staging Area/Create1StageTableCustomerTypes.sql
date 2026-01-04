@@ -7,4 +7,4 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CustomerTypes')
         Type char(20) not null
     )
 ELSE
-    TRUNCATE TABLE CustomerTypes
+    DELETE FROM CustomerTypes;
