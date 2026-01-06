@@ -11,6 +11,9 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DimEmployee')
         email varchar(100) NOT NULL,
         department_code int,
         department varchar(50) NOT NULL,
+        effective_date date NOT NULL,
+        expired_date date NOT NULL,
+        is_current bit NOT NULL,
         CONSTRAINT [PK_DimEmployee] PRIMARY KEY CLUSTERED
     (
         employee_key ASC

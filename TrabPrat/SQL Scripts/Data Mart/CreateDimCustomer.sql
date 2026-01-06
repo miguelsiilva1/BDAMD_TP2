@@ -15,6 +15,9 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DimCustomer')
         fax varchar(60) NOT NULL,
         customer_code int,
         customer_type char(20) NOT NULL,
+        effective_date date NOT NULL,
+        expired_date date NOT NULL,
+        is_current bit NOT NULL,
         CONSTRAINT [PK_DimCustomer] PRIMARY KEY CLUSTERED
     (
         customer_key ASC
