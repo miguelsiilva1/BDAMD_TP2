@@ -1,16 +1,10 @@
 IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Sales')
     create table Sales
     (
-        SaleID             int identity
-            constraint PK_Sales
-                primary key,
+        SaleID             int,
         SaleDate           date           not null,
-        CustomerNumber     numeric(10)    not null
-            constraint FK_Sales_Customers
-                references Customers,
-        EmployeeNumber     numeric(6)     not null
-            constraint FK_Sales_Employees
-                references Employees,
+        CustomerNumber     numeric(10)    not null,
+        EmployeeNumber     numeric(6)     not null,
         PaymentDate        date           not null,
         ProductsTotalValue numeric(19, 6) not null,
         VAT                numeric(19, 6) not null,

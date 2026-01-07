@@ -1,9 +1,7 @@
 IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'Families')
     create table Families
     (
-        Code int identity
-            constraint PK_familias_1
-                primary key,
+        Code int,
         Name varchar(60)
     )
 ELSE

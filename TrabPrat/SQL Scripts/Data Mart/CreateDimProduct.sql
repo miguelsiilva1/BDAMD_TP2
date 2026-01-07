@@ -13,7 +13,7 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DimProduct')
         family_code int,
         family_name varchar(60) NOT NULL,
         effective_date date NOT NULL,
-        expired_date date NOT NULL,
+        expired_date date,
         is_current bit NOT NULL,
         CONSTRAINT [PK_DimProduct] PRIMARY KEY CLUSTERED
     (
