@@ -25,6 +25,7 @@ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'FactSales')
         vat_rate numeric(4,2) NOT NULL,
         line_value numeric(19,6) NOT NULL,
         final_value numeric(19,6) NOT NULL,
+        total_amount numeric(14,4)
     CONSTRAINT [PK_FactSales] PRIMARY KEY CLUSTERED
     (
         [DateKey] ASC,
