@@ -11,8 +11,8 @@
   DTS:LocaleID="2070"
   DTS:ObjectName="TrabPrat ETL Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="66"
-  DTS:VersionGUID="{684EEB63-91C8-41F9-A42C-5B6898DF42FB}">
+  DTS:VersionBuild="68"
+  DTS:VersionGUID="{986BA2B3-528D-441A-9120-88840A51F898}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -4490,13 +4490,13 @@ where [refTable].[Code] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
-                          name="Expression">([LEN](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Name]}) &gt; 0) || ([FINDSTRING](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]},"@",1) &gt; 0 &amp;&amp; [FINDSTRING]([SUBSTRING](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]},[FINDSTRING](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]},"@",1) + 1,[LEN](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]})),".",1) &gt; 0)</property>
+                          name="Expression">([LEN](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Name]}) &gt; 0) &amp;&amp; ([FINDSTRING](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]},"@",1) &gt; 0 &amp;&amp; [FINDSTRING]([SUBSTRING](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]},[FINDSTRING](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]},"@",1) + 1,[LEN](#{Package\Load Business Dimensions\Load DimCustomer\Customers.Outputs[OLE DB Source Output].Columns[Email]})),".",1) &gt; 0)</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Specifies the friendly version of the expression. This expression version uses column names."
                           expressionType="Notify"
-                          name="FriendlyExpression">(LEN(Name) &gt; 0) || (FINDSTRING(Email,"@",1) &gt; 0 &amp;&amp; FINDSTRING(SUBSTRING(Email,FINDSTRING(Email,"@",1) + 1,LEN(Email)),".",1) &gt; 0)</property>
+                          name="FriendlyExpression">(LEN(Name) &gt; 0) &amp;&amp; (FINDSTRING(Email,"@",1) &gt; 0 &amp;&amp; FINDSTRING(SUBSTRING(Email,FINDSTRING(Email,"@",1) + 1,LEN(Email)),".",1) &gt; 0)</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
@@ -4642,6 +4642,80 @@ where [refTable].[Code] = ?</property>
             <pipeline
               version="1">
               <components>
+                <component
+                  refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Add Invalid Employee DQP"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Output].Columns[DQP]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="29"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Output].Columns[DQP]"
+                          name="DQP"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">"Data from employee is invalid"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">"Data from employee is invalid"</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
                 <component
                   refId="Package\Load Business Dimensions\Load DimEmployee\Employee"
                   componentClassID="Microsoft.OLEDBSource"
@@ -4933,6 +5007,229 @@ WHERE        dbo.Departaments.Code = dbo.Employees.Department</property>
                           refId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                           dataType="i4"
                           lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="EmployeeDQP"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[EmployeesDQP]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Staging Area]"
+                      connectionManagerRefId="Package.ConnectionManagers[Staging Area]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Number]"
+                          cachedDataType="numeric"
+                          cachedName="Number"
+                          cachedPrecision="6"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Number]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Number]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Initials]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="3"
+                          cachedName="Initials"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Initials]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Initials]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Code]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="Code"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Code]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Code]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Forename]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Forename"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Forename]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Forename]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Surname]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Surname"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Surname]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Surname]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Group]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="20"
+                          cachedName="Group"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Group]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Group]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Email]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Email"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Email]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[Department]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Department"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Department]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].Columns[DQP]"
+                          cachedDataType="wstr"
+                          cachedLength="29"
+                          cachedName="DQP"
+                          externalMetadataColumnId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[DQP]"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Output].Columns[DQP]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Number]"
+                          dataType="numeric"
+                          name="Number"
+                          precision="6" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Initials]"
+                          codePage="1252"
+                          dataType="str"
+                          length="3"
+                          name="Initials" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Code]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="Code" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Forename]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Forename" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Surname]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="Surname" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Group]"
+                          codePage="1252"
+                          dataType="str"
+                          length="20"
+                          name="Group" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                          dataType="i4"
+                          name="Department" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                          codePage="1252"
+                          dataType="str"
+                          length="100"
+                          name="Email" />
+                        <externalMetadataColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input].ExternalColumns[DQP]"
+                          dataType="wstr"
+                          length="100"
+                          name="DQP" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -5298,6 +5595,118 @@ WHERE        dbo.Departaments.Code = dbo.Employees.Department</property>
                           refId="Package\Load Business Dimensions\Load DimEmployee\Insert into DimEmployee.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                           dataType="i4"
                           lineageId="Package\Load Business Dimensions\Load DimEmployee\Insert into DimEmployee.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Is Employee Valid?"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input].Columns[Initials]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="3"
+                          cachedName="Initials"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Initials]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input].Columns[Forename]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Forename"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Forename]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input].Columns[Surname]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="Surname"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Surname]" />
+                        <inputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input].Columns[Email]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="100"
+                          cachedName="Email"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Email]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Valid]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Valid"
+                      synchronousInputId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">[LEN](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Initials]}) &gt; 0 &amp;&amp; [LEN](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Forename]}) &gt; 0 &amp;&amp; [LEN](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Surname]}) &gt; 0 &amp;&amp; ([FINDSTRING](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Email]},"@",1) &gt; 0 &amp;&amp; [FINDSTRING]([SUBSTRING](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Email]},[FINDSTRING](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Email]},"@",1) + 1,[LEN](#{Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output].Columns[Email]})),".",1) &gt; 0)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(Initials) &gt; 0 &amp;&amp; LEN(Forename) &gt; 0 &amp;&amp; LEN(Surname) &gt; 0 &amp;&amp; (FINDSTRING(Email,"@",1) &gt; 0 &amp;&amp; FINDSTRING(SUBSTRING(Email,FINDSTRING(Email,"@",1) + 1,LEN(Email)),".",1) &gt; 0)</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Invalid]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Invalid"
+                      synchronousInputId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
                           name="ErrorColumn"
                           specialFlags="2" />
                       </outputColumns>
@@ -6363,10 +6772,20 @@ WHERE        dbo.Departaments.Code = dbo.Employees.Department</property>
                   name="Derived Column Output"
                   startId="Package\Load Business Dimensions\Load DimEmployee\Set New Record EffectiveDate.Outputs[Derived Column Output]" />
                 <path
+                  refId="Package\Load Business Dimensions\Load DimEmployee.Paths[Derived Column Output2]"
+                  endId="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Outputs[Derived Column Output]" />
+                <path
                   refId="Package\Load Business Dimensions\Load DimEmployee.Paths[Historical Attribute Inserts Output]"
                   endId="Package\Load Business Dimensions\Load DimEmployee\Set Old Record Expired Date.Inputs[Derived Column Input]"
                   name="Historical Attribute Inserts Output"
                   startId="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension.Outputs[Historical Attribute Inserts Output]" />
+                <path
+                  refId="Package\Load Business Dimensions\Load DimEmployee.Paths[Invalid]"
+                  endId="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP.Inputs[Derived Column Input]"
+                  name="Invalid"
+                  startId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Invalid]" />
                 <path
                   refId="Package\Load Business Dimensions\Load DimEmployee.Paths[New Output]"
                   endId="Package\Load Business Dimensions\Load DimEmployee\Union All.Inputs[Union All Input 1]"
@@ -6379,7 +6798,7 @@ WHERE        dbo.Departaments.Code = dbo.Employees.Department</property>
                   startId="Package\Load Business Dimensions\Load DimEmployee\Expire Old Record.Outputs[OLE DB Command Output]" />
                 <path
                   refId="Package\Load Business Dimensions\Load DimEmployee.Paths[OLE DB Source Output]"
-                  endId="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension.Inputs[Slowly Changing Dimension Input]"
+                  endId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Inputs[Conditional Split Input]"
                   name="OLE DB Source Output"
                   startId="Package\Load Business Dimensions\Load DimEmployee\Employee.Outputs[OLE DB Source Output]" />
                 <path
@@ -6387,6 +6806,11 @@ WHERE        dbo.Departaments.Code = dbo.Employees.Department</property>
                   endId="Package\Load Business Dimensions\Load DimEmployee\Set New Record EffectiveDate.Inputs[Derived Column Input]"
                   name="Union All Output 1"
                   startId="Package\Load Business Dimensions\Load DimEmployee\Union All.Outputs[Union All Output 1]" />
+                <path
+                  refId="Package\Load Business Dimensions\Load DimEmployee.Paths[Valid]"
+                  endId="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension.Inputs[Slowly Changing Dimension Input]"
+                  name="Valid"
+                  startId="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?.Outputs[Valid]" />
               </paths>
             </pipeline>
           </DTS:ObjectData>
@@ -6911,13 +7335,13 @@ WHERE        dbo.Departaments.Code = dbo.Employees.Department</property>
                           containsID="true"
                           dataType="System.String"
                           description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
-                          name="Expression">#{Package\Load Business Dimensions\Load DimProduct\Product.Outputs[OLE DB Source Output].Columns[Stock]} &gt; 0 || #{Package\Load Business Dimensions\Load DimProduct\Product.Outputs[OLE DB Source Output].Columns[MinimunStock]} &gt; 0 || #{Package\Load Business Dimensions\Load DimProduct\Product.Outputs[OLE DB Source Output].Columns[UnitPrice]} &gt; 0</property>
+                          name="Expression">#{Package\Load Business Dimensions\Load DimProduct\Product.Outputs[OLE DB Source Output].Columns[Stock]} &gt; 0 &amp;&amp; #{Package\Load Business Dimensions\Load DimProduct\Product.Outputs[OLE DB Source Output].Columns[MinimunStock]} &gt; 0 &amp;&amp; #{Package\Load Business Dimensions\Load DimProduct\Product.Outputs[OLE DB Source Output].Columns[UnitPrice]} &gt; 0</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Specifies the friendly version of the expression. This expression version uses column names."
                           expressionType="Notify"
-                          name="FriendlyExpression">Stock &gt; 0 || MinimunStock &gt; 0 || UnitPrice &gt; 0</property>
+                          name="FriendlyExpression">Stock &gt; 0 &amp;&amp; MinimunStock &gt; 0 &amp;&amp; UnitPrice &gt; 0</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
@@ -13794,9 +14218,9 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="155,42"
-          Id="Package\Load Business Dimensions\Load DimCustomer\Valid Customer?"
-          TopLeft="163,68" />
+          Size="169,42"
+          Id="Package\Load Business Dimensions\Load DimCustomer\Expired Old Record"
+          TopLeft="5.50000000000006,503.5" />
         <NodeLayout
           Size="213,42"
           Id="Package\Load Business Dimensions\Load DimCustomer\Set Old Record Expired Date"
@@ -13806,13 +14230,13 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
           Id="Package\Load Business Dimensions\Load DimCustomer\Union All"
           TopLeft="172,605.5" />
         <NodeLayout
-          Size="242,42"
-          Id="Package\Load Business Dimensions\Load DimCustomer\Add Customer Lookup Failure DQP"
-          TopLeft="460,194" />
-        <NodeLayout
           Size="129,42"
           Id="Package\Load Business Dimensions\Load DimCustomer\Customers"
           TopLeft="174,0.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Load Business Dimensions\Load DimCustomer\Valid Customer?"
+          TopLeft="163,68" />
         <NodeLayout
           Size="130,42"
           Id="Package\Load Business Dimensions\Load DimCustomer\Union All 1"
@@ -13830,17 +14254,13 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
           Id="Package\Load Business Dimensions\Load DimCustomer\Update DimCustomer"
           TopLeft="294,401.5" />
         <NodeLayout
-          Size="196,42"
-          Id="Package\Load Business Dimensions\Load DimCustomer\Insert Into DimCustomer"
-          TopLeft="158.5,809.5" />
-        <NodeLayout
           Size="204,42"
           Id="Package\Load Business Dimensions\Load DimCustomer\Add Invalid Customer DQP"
           TopLeft="453,10" />
         <NodeLayout
-          Size="113,42"
-          Id="Package\Load Business Dimensions\Load DimCustomer\Lookup"
-          TopLeft="176,144.5" />
+          Size="196,42"
+          Id="Package\Load Business Dimensions\Load DimCustomer\Insert Into DimCustomer"
+          TopLeft="158.5,809.5" />
         <NodeLayout
           Size="209,42"
           Id="Package\Load Business Dimensions\Load DimCustomer\Slowly Changing Dimension"
@@ -13850,9 +14270,13 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
           Id="Package\Load Business Dimensions\Load DimCustomer\Derived Column"
           TopLeft="153,226" />
         <NodeLayout
-          Size="169,42"
-          Id="Package\Load Business Dimensions\Load DimCustomer\Expired Old Record"
-          TopLeft="5.50000000000006,503.5" />
+          Size="242,42"
+          Id="Package\Load Business Dimensions\Load DimCustomer\Add Customer Lookup Failure DQP"
+          TopLeft="460,194" />
+        <NodeLayout
+          Size="113,42"
+          Id="Package\Load Business Dimensions\Load DimCustomer\Lookup"
+          TopLeft="176,144.5" />
         <EdgeLayout
           Id="Package\Load Business Dimensions\Load DimCustomer.Paths[Valid_Name]"
           TopLeft="240.5,110">
@@ -14382,29 +14806,6 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimCustomer\Lookup">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[CustomerTypes]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Load Business Dimensions\Load DimCustomer\Slowly Changing Dimension">
     <Properties>
       <Property>
@@ -14500,6 +14901,1056 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
     &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
     &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
     &lt;anyType xsi:type="xsd:string"&gt;Inserir Destino&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;true&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;true&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn&gt;effective_date&lt;/StartDateColumn&gt;
+  &lt;EndDateColumn&gt;expired_date&lt;/EndDateColumn&gt;
+  &lt;DateVariable&gt;System::ContainerStartTime&lt;/DateVariable&gt;
+  &lt;EnableInferredSupport&gt;false&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimCustomer\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[CustomerTypes]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Business Dimensions\Load DimEmployee">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Set New Record EffectiveDate"
+          TopLeft="161,608.5" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Union All"
+          TopLeft="182,506.5" />
+        <NodeLayout
+          Size="213,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Set Old Record Expired Date"
+          TopLeft="11.5000000000001,298.5" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Expire Old Record"
+          TopLeft="15.5000000000001,404.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Insert into DimEmployee"
+          TopLeft="161,710.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension"
+          TopLeft="138,200.5" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Employee"
+          TopLeft="178,0.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Update DimEmployee"
+          TopLeft="304,302.5" />
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Union All Output 1]"
+          TopLeft="242.5,548.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.5,60"
+              Start="0,0"
+              End="28.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="24.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.5,30"
+                    Point2="28.5,30"
+                    Point3="28.5,34" />
+                  <mssgle:LineSegment
+                    End="28.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[OLE DB Command Output]"
+          TopLeft="97.0000000000001,446.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="126.666666666667,60"
+              Start="0,0"
+              End="126.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5301794453507"
+                    Point2="0,35.5301794453507"
+                    Point3="4,35.5301794453507" />
+                  <mssgle:LineSegment
+                    End="122.666666666667,35.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="122.666666666667,35.5301794453507"
+                    Point2="126.666666666667,35.5301794453507"
+                    Point3="126.666666666667,39.5301794453507" />
+                  <mssgle:LineSegment
+                    End="126.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[New Output]"
+          TopLeft="242.5,242.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.8333333333334,264"
+              Start="0,0"
+              End="18.8333333333334,256.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,152.332789559543" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,152.332789559543"
+                    Point2="0,156.332789559543"
+                    Point3="4,156.332789559543" />
+                  <mssgle:LineSegment
+                    End="14.8333333333334,156.332789559543" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.8333333333334,156.332789559543"
+                    Point2="18.8333333333334,156.332789559543"
+                    Point3="18.8333333333334,160.332789559543" />
+                  <mssgle:LineSegment
+                    End="18.8333333333334,256.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.6747200520833,161.332789559543,54.1827734375,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Historical Attribute Inserts Output]"
+          TopLeft="192.25,242.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-74.25,56"
+              Start="0,0"
+              End="-74.25,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.1370078740157" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.1370078740157"
+                    Point2="0,19.1370078740157"
+                    Point3="-4,19.1370078740157" />
+                  <mssgle:LineSegment
+                    End="-70.25,19.1370078740157" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-70.25,19.1370078740157"
+                    Point2="-74.25,19.1370078740157"
+                    Point3="-74.25,23.1370078740157" />
+                  <mssgle:LineSegment
+                    End="-74.25,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-112.18138671875,24.1370078740157,150.1127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Derived Column Output1]"
+          TopLeft="271,650.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12.5,60"
+              Start="0,0"
+              End="-12.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-8.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8.5,30"
+                    Point2="-12.5,30"
+                    Point3="-12.5,34" />
+                  <mssgle:LineSegment
+                    End="-12.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Derived Column Output]"
+          TopLeft="118,340.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-21,64"
+              Start="0,0"
+              End="-21,56.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28"
+                    Point2="0,32"
+                    Point3="-4,32" />
+                  <mssgle:LineSegment
+                    End="-17,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-17,32"
+                    Point2="-21,32"
+                    Point3="-21,36" />
+                  <mssgle:LineSegment
+                    End="-21,56.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Changing Attribute Updates Output]"
+          TopLeft="292.75,242.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="101.25,60"
+              Start="0,0"
+              End="101.25,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.503937007874" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.503937007874"
+                    Point2="0,20.503937007874"
+                    Point3="4,20.503937007874" />
+                  <mssgle:LineSegment
+                    End="97.25,20.503937007874" />
+                  <mssgle:CubicBezierSegment
+                    Point1="97.25,20.503937007874"
+                    Point2="101.25,20.503937007874"
+                    Point3="101.25,24.503937007874" />
+                  <mssgle:LineSegment
+                    End="101.25,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-27.90890625,25.503937007874,157.0678125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Is Employee Valid?"
+          TopLeft="165,92" />
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[OLE DB Source Output]"
+          TopLeft="240.5,42.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.5,49.5"
+              Start="0,0"
+              End="8.5,42">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.75"
+                    Point2="0,24.75"
+                    Point3="4,24.75" />
+                  <mssgle:LineSegment
+                    End="4.5,24.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.5,24.75"
+                    Point2="8.5,24.75"
+                    Point3="8.5,28.75" />
+                  <mssgle:LineSegment
+                    End="8.5,42" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\Add Invalid Employee DQP"
+          TopLeft="437,90" />
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Valid]"
+          TopLeft="245.75,134">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,66.5"
+              Start="0,0"
+              End="0,59">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-11.351171875,24.62548828125,22.70234375,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Invalid]"
+          TopLeft="333,112">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="104,0"
+              Start="0,0"
+              End="96.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="96.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="32.98541015625,5,30.5291796875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP"
+          TopLeft="748,93" />
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Derived Column Output2]"
+          TopLeft="642,112.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="106,0"
+              Start="0,0"
+              End="98.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="98.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimEmployee\Insert into DimEmployee">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{88CAD2DA-76F4-4D9A-B919-8BE3092E2434}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[DimEmployee]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Department]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;department&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[departament_code]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;department_code&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Email]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;email&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Code]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;employee_code&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Forename]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;forename&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Group]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;group&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Initials]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;initials&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Number]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;number&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Surname]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;surname&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Derived Column&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;true&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;true&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn&gt;effective_date&lt;/StartDateColumn&gt;
+  &lt;EndDateColumn&gt;expired_date&lt;/EndDateColumn&gt;
+  &lt;DateVariable&gt;System::CreationDate&lt;/DateVariable&gt;
+  &lt;EnableInferredSupport&gt;false&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimEmployee\Employee">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Business Dimensions\Load DimProduct">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="115,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Product"
+          TopLeft="173,0.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Add Invalid Product DQP"
+          TopLeft="408,89" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Expire Old Record"
+          TopLeft="10.5000000000001,391.5" />
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Insert Into DimProduct"
+          TopLeft="156,697.5" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Set New Record EffectiveDate"
+          TopLeft="156,595.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Set Old Record ExpiredDate"
+          TopLeft="0.500000000000057,288.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Update DimProduct"
+          TopLeft="299,289.5" />
+        <NodeLayout
+          Size="140,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\ProductsDQP"
+          TopLeft="712,90" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Union All"
+          TopLeft="177,493.5" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Slowly Changing Dimension"
+          TopLeft="133,187.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Load Business Dimensions\Load DimProduct\Is Product Valid?"
+          TopLeft="157,92" />
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[OLE DB Source Output]"
+          TopLeft="233.25,42.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49.5"
+              Start="0,0"
+              End="0,42">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[OLE DB Command Output]"
+          TopLeft="92.0000000000001,433.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="126.666666666667,60"
+              Start="0,0"
+              End="126.666666666667,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5301794453507"
+                    Point2="0,35.5301794453507"
+                    Point3="4,35.5301794453507" />
+                  <mssgle:LineSegment
+                    End="122.666666666667,35.5301794453507" />
+                  <mssgle:CubicBezierSegment
+                    Point1="122.666666666667,35.5301794453507"
+                    Point2="126.666666666667,35.5301794453507"
+                    Point3="126.666666666667,39.5301794453507" />
+                  <mssgle:LineSegment
+                    End="126.666666666667,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[New Output]"
+          TopLeft="237.5,229.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.8333333333334,264"
+              Start="0,0"
+              End="18.8333333333334,256.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,152.332789559543" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,152.332789559543"
+                    Point2="0,156.332789559543"
+                    Point3="4,156.332789559543" />
+                  <mssgle:LineSegment
+                    End="14.8333333333334,156.332789559543" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.8333333333334,156.332789559543"
+                    Point2="18.8333333333334,156.332789559543"
+                    Point3="18.8333333333334,160.332789559543" />
+                  <mssgle:LineSegment
+                    End="18.8333333333334,256.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.6747200520833,161.332789559543,54.1827734375,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Invalid]"
+          TopLeft="315,111.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93,0"
+              Start="0,0"
+              End="85.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="85.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="27.48541015625,5,30.5291796875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Historical Attribute Inserts Output]"
+          TopLeft="187.25,229.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-81.75,59"
+              Start="0,0"
+              End="-81.75,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.1622047244094" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.1622047244094"
+                    Point2="0,20.1622047244094"
+                    Point3="-4,20.1622047244094" />
+                  <mssgle:LineSegment
+                    End="-77.75,20.1622047244094" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-77.75,20.1622047244094"
+                    Point2="-81.75,20.1622047244094"
+                    Point3="-81.75,24.1622047244094" />
+                  <mssgle:LineSegment
+                    End="-81.75,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-115.93138671875,25.1622047244094,150.1127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Derived Column Output2]"
+          TopLeft="603,110.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="109,0"
+              Start="0,0"
+              End="101.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="101.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Derived Column Output1]"
+          TopLeft="266,637.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-16.5,60"
+              Start="0,0"
+              End="-16.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-12.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-12.5,30"
+                    Point2="-16.5,30"
+                    Point3="-16.5,34" />
+                  <mssgle:LineSegment
+                    End="-16.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Derived Column Output]"
+          TopLeft="105.5,330.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-13.5,61"
+              Start="0,0"
+              End="-13.5,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.5"
+                    Point2="0,30.5"
+                    Point3="-4,30.5" />
+                  <mssgle:LineSegment
+                    End="-9.5,30.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9.5,30.5"
+                    Point2="-13.5,30.5"
+                    Point3="-13.5,34.5" />
+                  <mssgle:LineSegment
+                    End="-13.5,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Changing Attribute Updates Output]"
+          TopLeft="287.75,229.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="96.25,60"
+              Start="0,0"
+              End="96.25,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.503937007874" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.503937007874"
+                    Point2="0,20.503937007874"
+                    Point3="4,20.503937007874" />
+                  <mssgle:LineSegment
+                    End="92.25,20.503937007874" />
+                  <mssgle:CubicBezierSegment
+                    Point1="92.25,20.503937007874"
+                    Point2="96.25,20.503937007874"
+                    Point3="96.25,24.503937007874" />
+                  <mssgle:LineSegment
+                    End="96.25,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-30.40890625,25.503937007874,157.0678125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Valid]"
+          TopLeft="236.75,134">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.5"
+              Start="0,0"
+              End="0,46">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-11.351171875,18.12548828125,22.70234375,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Union All Output 1]"
+          TopLeft="237.5,535.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28.5,60"
+              Start="0,0"
+              End="28.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="24.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="24.5,30"
+                    Point2="28.5,30"
+                    Point3="28.5,34" />
+                  <mssgle:LineSegment
+                    End="28.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimProduct\Product">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimProduct\Insert Into DimProduct">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimProduct\ProductsDQP">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Business Dimensions\Load DimProduct\Slowly Changing Dimension">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{88CAD2DA-76F4-4D9A-B919-8BE3092E2434}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[DimProduct]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Category]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;category&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Description]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;description&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[family_code]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;family_code&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Name]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;family_name&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[MinimunStock]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;minimum_stock&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[OrderPoint]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;order_point&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Code]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;product_code&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[StartSellingDate]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;start_selling_date&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Stock]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;stock&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[UnitPrice]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;unit_price&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Derived Column&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
     &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
   &lt;/GeneratedComponentsIdentificationStrings&gt;
   &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
@@ -15103,928 +16554,8 @@ WHERE        dbo.Families.Code = dbo.Products.FamilyCode</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load Business Dimensions\Load DimEmployee">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="125,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Employee"
-          TopLeft="180,5.5" />
-        <NodeLayout
-          Size="209,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension"
-          TopLeft="138,107.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[OLE DB Source Output]"
-          TopLeft="242.5,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,60"
-              Start="0,0"
-              End="0,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="213,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Set Old Record Expired Date"
-          TopLeft="11.5000000000001,205.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Historical Attribute Inserts Output]"
-          TopLeft="192.25,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-74.25,56"
-              Start="0,0"
-              End="-74.25,48.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,15.1370078740157" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,15.1370078740157"
-                    Point2="0,19.1370078740157"
-                    Point3="-4,19.1370078740157" />
-                  <mssgle:LineSegment
-                    End="-70.25,19.1370078740157" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-70.25,19.1370078740157"
-                    Point2="-74.25,19.1370078740157"
-                    Point3="-74.25,23.1370078740157" />
-                  <mssgle:LineSegment
-                    End="-74.25,48.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-112.18138671875,24.1370078740157,150.1127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="163,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Expire Old Record"
-          TopLeft="15.5000000000001,311.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Derived Column Output]"
-          TopLeft="118,247.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-21,64"
-              Start="0,0"
-              End="-21,56.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,28" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,28"
-                    Point2="0,32"
-                    Point3="-4,32" />
-                  <mssgle:LineSegment
-                    End="-17,32" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-17,32"
-                    Point2="-21,32"
-                    Point3="-21,36" />
-                  <mssgle:LineSegment
-                    End="-21,56.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="121,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Union All"
-          TopLeft="182,413.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[New Output]"
-          TopLeft="242.5,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="18.8333333333334,264"
-              Start="0,0"
-              End="18.8333333333334,256.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,152.332789559543" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,152.332789559543"
-                    Point2="0,156.332789559543"
-                    Point3="4,156.332789559543" />
-                  <mssgle:LineSegment
-                    End="14.8333333333334,156.332789559543" />
-                  <mssgle:CubicBezierSegment
-                    Point1="14.8333333333334,156.332789559543"
-                    Point2="18.8333333333334,156.332789559543"
-                    Point3="18.8333333333334,160.332789559543" />
-                  <mssgle:LineSegment
-                    End="18.8333333333334,256.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.6747200520833,161.332789559543,54.1827734375,11.43359375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[OLE DB Command Output]"
-          TopLeft="97.0000000000001,353.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="126.666666666667,60"
-              Start="0,0"
-              End="126.666666666667,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.5301794453507" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.5301794453507"
-                    Point2="0,35.5301794453507"
-                    Point3="4,35.5301794453507" />
-                  <mssgle:LineSegment
-                    End="122.666666666667,35.5301794453507" />
-                  <mssgle:CubicBezierSegment
-                    Point1="122.666666666667,35.5301794453507"
-                    Point2="126.666666666667,35.5301794453507"
-                    Point3="126.666666666667,39.5301794453507" />
-                  <mssgle:LineSegment
-                    End="126.666666666667,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="220,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Set New Record EffectiveDate"
-          TopLeft="161,515.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Union All Output 1]"
-          TopLeft="242.5,455.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="28.5,60"
-              Start="0,0"
-              End="28.5,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26"
-                    Point2="0,30"
-                    Point3="4,30" />
-                  <mssgle:LineSegment
-                    End="24.5,30" />
-                  <mssgle:CubicBezierSegment
-                    Point1="24.5,30"
-                    Point2="28.5,30"
-                    Point3="28.5,34" />
-                  <mssgle:LineSegment
-                    End="28.5,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="195,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Insert into DimEmployee"
-          TopLeft="161,617.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Derived Column Output1]"
-          TopLeft="271,557.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-12.5,60"
-              Start="0,0"
-              End="-12.5,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26"
-                    Point2="0,30"
-                    Point3="-4,30" />
-                  <mssgle:LineSegment
-                    End="-8.5,30" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-8.5,30"
-                    Point2="-12.5,30"
-                    Point3="-12.5,34" />
-                  <mssgle:LineSegment
-                    End="-12.5,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="180,42"
-          Id="Package\Load Business Dimensions\Load DimEmployee\Update DimEmployee"
-          TopLeft="304,209.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimEmployee.Paths[Changing Attribute Updates Output]"
-          TopLeft="292.75,149.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="101.25,60"
-              Start="0,0"
-              End="101.25,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.503937007874" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.503937007874"
-                    Point2="0,20.503937007874"
-                    Point3="4,20.503937007874" />
-                  <mssgle:LineSegment
-                    End="97.25,20.503937007874" />
-                  <mssgle:CubicBezierSegment
-                    Point1="97.25,20.503937007874"
-                    Point2="101.25,20.503937007874"
-                    Point3="101.25,24.503937007874" />
-                  <mssgle:LineSegment
-                    End="101.25,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-27.90890625,25.503937007874,157.0678125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimEmployee\Employee">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimEmployee\Slowly Changing Dimension">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{88CAD2DA-76F4-4D9A-B919-8BE3092E2434}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[DimEmployee]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Department]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;department&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[departament_code]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;department_code&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Email]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;email&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Code]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;employee_code&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Forename]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;forename&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Group]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;group&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Initials]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;initials&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Number]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;number&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Employee.Outputs[OLE DB Source Output].Columns[Surname]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;surname&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Derived Column&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;true&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;true&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn&gt;effective_date&lt;/StartDateColumn&gt;
-  &lt;EndDateColumn&gt;expired_date&lt;/EndDateColumn&gt;
-  &lt;DateVariable&gt;System::CreationDate&lt;/DateVariable&gt;
-  &lt;EnableInferredSupport&gt;false&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimEmployee\Insert into DimEmployee">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load Business Dimensions\Load DimProduct">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="115,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Product"
-          TopLeft="173,0.5" />
-        <NodeLayout
-          Size="209,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Slowly Changing Dimension"
-          TopLeft="133,187.5" />
-        <NodeLayout
-          Size="210,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Set Old Record ExpiredDate"
-          TopLeft="0.500000000000057,288.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Historical Attribute Inserts Output]"
-          TopLeft="187.25,229.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-81.75,59"
-              Start="0,0"
-              End="-81.75,51.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.1622047244094" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.1622047244094"
-                    Point2="0,20.1622047244094"
-                    Point3="-4,20.1622047244094" />
-                  <mssgle:LineSegment
-                    End="-77.75,20.1622047244094" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-77.75,20.1622047244094"
-                    Point2="-81.75,20.1622047244094"
-                    Point3="-81.75,24.1622047244094" />
-                  <mssgle:LineSegment
-                    End="-81.75,51.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-115.93138671875,25.1622047244094,150.1127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="163,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Expire Old Record"
-          TopLeft="10.5000000000001,391.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Derived Column Output]"
-          TopLeft="105.5,330.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-13.5,61"
-              Start="0,0"
-              End="-13.5,53.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26.5"
-                    Point2="0,30.5"
-                    Point3="-4,30.5" />
-                  <mssgle:LineSegment
-                    End="-9.5,30.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-9.5,30.5"
-                    Point2="-13.5,30.5"
-                    Point3="-13.5,34.5" />
-                  <mssgle:LineSegment
-                    End="-13.5,53.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="121,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Union All"
-          TopLeft="177,493.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[New Output]"
-          TopLeft="237.5,229.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="18.8333333333334,264"
-              Start="0,0"
-              End="18.8333333333334,256.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,152.332789559543" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,152.332789559543"
-                    Point2="0,156.332789559543"
-                    Point3="4,156.332789559543" />
-                  <mssgle:LineSegment
-                    End="14.8333333333334,156.332789559543" />
-                  <mssgle:CubicBezierSegment
-                    Point1="14.8333333333334,156.332789559543"
-                    Point2="18.8333333333334,156.332789559543"
-                    Point3="18.8333333333334,160.332789559543" />
-                  <mssgle:LineSegment
-                    End="18.8333333333334,256.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-17.6747200520833,161.332789559543,54.1827734375,11.43359375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[OLE DB Command Output]"
-          TopLeft="92.0000000000001,433.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="126.666666666667,60"
-              Start="0,0"
-              End="126.666666666667,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.5301794453507" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.5301794453507"
-                    Point2="0,35.5301794453507"
-                    Point3="4,35.5301794453507" />
-                  <mssgle:LineSegment
-                    End="122.666666666667,35.5301794453507" />
-                  <mssgle:CubicBezierSegment
-                    Point1="122.666666666667,35.5301794453507"
-                    Point2="126.666666666667,35.5301794453507"
-                    Point3="126.666666666667,39.5301794453507" />
-                  <mssgle:LineSegment
-                    End="126.666666666667,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="220,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Set New Record EffectiveDate"
-          TopLeft="156,595.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Union All Output 1]"
-          TopLeft="237.5,535.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="28.5,60"
-              Start="0,0"
-              End="28.5,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26"
-                    Point2="0,30"
-                    Point3="4,30" />
-                  <mssgle:LineSegment
-                    End="24.5,30" />
-                  <mssgle:CubicBezierSegment
-                    Point1="24.5,30"
-                    Point2="28.5,30"
-                    Point3="28.5,34" />
-                  <mssgle:LineSegment
-                    End="28.5,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="187,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Insert Into DimProduct"
-          TopLeft="156,697.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Derived Column Output1]"
-          TopLeft="266,637.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-16.5,60"
-              Start="0,0"
-              End="-16.5,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26"
-                    Point2="0,30"
-                    Point3="-4,30" />
-                  <mssgle:LineSegment
-                    End="-12.5,30" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-12.5,30"
-                    Point2="-16.5,30"
-                    Point3="-16.5,34" />
-                  <mssgle:LineSegment
-                    End="-16.5,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="170,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Update DimProduct"
-          TopLeft="299,289.5" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Changing Attribute Updates Output]"
-          TopLeft="287.75,229.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="96.25,60"
-              Start="0,0"
-              End="96.25,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.503937007874" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.503937007874"
-                    Point2="0,20.503937007874"
-                    Point3="4,20.503937007874" />
-                  <mssgle:LineSegment
-                    End="92.25,20.503937007874" />
-                  <mssgle:CubicBezierSegment
-                    Point1="92.25,20.503937007874"
-                    Point2="96.25,20.503937007874"
-                    Point3="96.25,24.503937007874" />
-                  <mssgle:LineSegment
-                    End="96.25,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-30.40890625,25.503937007874,157.0678125,11.6630859375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="158,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Is Product Valid?"
-          TopLeft="157,92" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[OLE DB Source Output]"
-          TopLeft="233.25,42.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,49.5"
-              Start="0,0"
-              End="0,42">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,42" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="140,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\ProductsDQP"
-          TopLeft="712,90" />
-        <NodeLayout
-          Size="195,42"
-          Id="Package\Load Business Dimensions\Load DimProduct\Add Invalid Product DQP"
-          TopLeft="408,89" />
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Valid]"
-          TopLeft="236.75,134">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,53.5"
-              Start="0,0"
-              End="0,46">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,46" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-11.351171875,18.12548828125,22.70234375,9.7490234375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Invalid]"
-          TopLeft="315,111.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="93,0"
-              Start="0,0"
-              End="85.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="85.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="27.48541015625,5,30.5291796875,9.7490234375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Business Dimensions\Load DimProduct.Paths[Derived Column Output2]"
-          TopLeft="603,110.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="109,0"
-              Start="0,0"
-              End="101.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="101.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimProduct\Product">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimProduct\Slowly Changing Dimension">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{88CAD2DA-76F4-4D9A-B919-8BE3092E2434}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[DimProduct]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Category]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;category&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Description]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;description&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[family_code]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;family_code&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Name]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;family_name&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[MinimunStock]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;minimum_stock&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[OrderPoint]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;order_point&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Code]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;product_code&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[StartSellingDate]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;start_selling_date&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[Stock]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;stock&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Product.Outputs[OLE DB Source Output].Columns[UnitPrice]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;unit_price&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Derived Column&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;true&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;true&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn&gt;effective_date&lt;/StartDateColumn&gt;
-  &lt;EndDateColumn&gt;expired_date&lt;/EndDateColumn&gt;
-  &lt;DateVariable&gt;System::ContainerStartTime&lt;/DateVariable&gt;
-  &lt;EnableInferredSupport&gt;false&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimProduct\Insert Into DimProduct">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Business Dimensions\Load DimProduct\ProductsDQP">
+    design-time-name="Package\Load Business Dimensions\Load DimEmployee\EmployeeDQP">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
