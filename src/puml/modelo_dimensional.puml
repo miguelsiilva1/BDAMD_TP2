@@ -39,7 +39,9 @@ entity DimCustomer {
     contact
     fax
     email
-
+    effective_date
+    expired_date
+    is_current
 }
 
 entity DimProduct {
@@ -54,7 +56,9 @@ entity DimProduct {
     order_point
     minimum_stock
     category
-
+    effective_date
+    expired_date
+    is_current
 }
 
 entity DimEmployee {
@@ -68,6 +72,9 @@ entity DimEmployee {
     email
     department
     department_code
+    effective_date
+    expired_date
+    is_current
 }
 
 entity FactSales {
@@ -89,7 +96,7 @@ entity FactSales {
     vat
     vat_rate
     final_value
-
+    total_amount
 }
 
 FactSales "*" -left- "1" DimCustomer
